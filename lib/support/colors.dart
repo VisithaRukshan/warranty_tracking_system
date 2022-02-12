@@ -8,3 +8,4 @@ Color gray400 = const Color(0xFFBDBDBD);
 Color gray600 = const Color(0xFF757575);
 Color blue800 = const Color(0xFF1565C0);
 Color darkblue = const Color(0xFF00204A);
+Color white =  const Color(0xFFFFFFFF);
