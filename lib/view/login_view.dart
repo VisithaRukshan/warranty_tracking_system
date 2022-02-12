@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:warranty_tracking_system/support/colors.dart';
+import 'package:warranty_tracking_system/support/global.dart';
+import 'package:warranty_tracking_system/view/home.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -148,7 +150,11 @@ class _LoginViewState extends State<LoginView> {
                                 ),
                               ),
                               onTap: () {
-                                
+                                titleBarText = 'Home';
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const HomeView()),
+                                );
                               },
                             ),
                           ),
