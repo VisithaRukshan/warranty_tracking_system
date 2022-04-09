@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "862487188628",
+    "project_id": "warrantyclaimsystem",
+    "storage_bucket": "warrantyclaimsystem.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:862487188628:android:ae843a855921bbc9cc1081",
+        "android_client_info": {
+          "package_name": "com.example.warranty_tracking_system"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "862487188628-maimflglcbolifpov31umprj297anes3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCt02ExQAQtodSdfzXKbbMmp4FG2Y11mYU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "862487188628-maimflglcbolifpov31umprj297anes3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
