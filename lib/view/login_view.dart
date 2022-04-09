@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:warranty_tracking_system/support/colors.dart';
 import 'package:warranty_tracking_system/support/global.dart';
-import 'package:warranty_tracking_system/view/home.dart';
+import 'package:warranty_tracking_system/view/home_view.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
