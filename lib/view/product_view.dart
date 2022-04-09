@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:warranty_tracking_system/controller/dbManager_product_list.dart';
 import 'package:warranty_tracking_system/support/colors.dart';
 import 'package:warranty_tracking_system/support/global.dart';
 
@@ -10,11 +12,42 @@ class ProductView extends StatefulWidget {
 }
 
 class _ProductViewState extends State<ProductView> {
+  List productList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    print('fetched');
+    fetchDatabaseList();
+  }
+
+  fetchDatabaseList() async {
+    dynamic results = await DBManagerProductList().getProductList();
+
+    if (results == null) {
+      print("unable to retrieve");
+    } else {
+      setState(() {
+        productList = results;
+      });
+      print(productList[0]);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
+      // body: Container(
+      //   child: ListView.builder(itemCount: productList.length, itemBuilder:(context, index) {
+      //     return Card(
+      //       child: ListTile(
+      //         title: Text(productList[index]['productName']),
+      //       ),
+      //     );
+      //   }))
+
       body: Column(
         children: <Widget>[
           //Title Bar View
@@ -70,465 +103,97 @@ class _ProductViewState extends State<ProductView> {
               ),
             ),
           ),
-          SizedBox(
-            height: size.height * 0.03,
-          ), //Body starts here
+          //Body starts here
           Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                      right: size.width * 0.05,
-                      left: size.width * 0.05,
-                    ),
-                    child: Column(
+            child: ListView.builder(
+              itemCount: productList.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  elevation: 6,
+                  margin: EdgeInsets.all(size.height * 0.01),
+                  child: ListTile(
+                    // title:
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black),
-                            borderRadius: BorderRadius.circular(20),
-                            color: white,
-                            boxShadow: [
-                              BoxShadow(
-                                spreadRadius: 5,
-                                blurRadius: 7,
-                                offset: const Offset(0, 8),
-                                color: darkblue.withOpacity(0.5),
+                        Text(
+                          productList[index]['productName'],
+                          style: TextStyle(fontSize: size.height * 0.03),
+                        ),
+                        SizedBox(
+                          height: size.height * 0.01,
+                        ),
+                        Text(
+                          productList[index]['productID'],
+                          style: TextStyle(fontSize: size.height * 0.02),
+                        ),
+                        SizedBox(
+                          height: size.height * 0.025,
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                            children: [
+                              Text(
+                                'Price :',
+                                style: TextStyle(
+                                  fontSize: size.height * 0.025,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              SizedBox(
+                                width: size.width * 0.02,
+                              ),
+                              Text(
+                                productList[index]['price'],
+                                style: TextStyle(
+                                  fontSize: size.height * 0.025,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ],
-                          ),
-                          height: size.height * 0.2,
-                          width: size.width * 0.9,
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              top: size.height * 0.02,
-                              left: size.width * 0.05,
-                              right: size.width * 0.05,
-                            ),
-                            child: Column(
-                              children: [
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    productName1,
-                                    style: TextStyle(fontSize: size.height * 0.03),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: size.height * 0.01,
-                                ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    productId1,
-                                    style: TextStyle(fontSize: size.height * 0.02),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: size.height * 0.025,
-                                ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        'Price :',
-                                        style: TextStyle(
-                                          fontSize: size.height * 0.025,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: size.width * 0.02,
-                                      ),
-                                      Text(
-                                        'Rs.12000.00',
-                                        style: TextStyle(
-                                          fontSize: size.height * 0.025,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: size.height * 0.01,
-                                ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        'Cash Discount :',
-                                        style: TextStyle(fontSize: size.height * 0.02),
-                                      ),
-                                      SizedBox(
-                                        width: size.width * 0.02,
-                                      ),
-                                      Text(
-                                        '30%',
-                                        style: TextStyle(fontSize: size.height * 0.02),
-                                      ),
-                                      SizedBox(
-                                        width: size.width * 0.04,
-                                      ),
-                                      Text(
-                                        'Credit Discount :',
-                                        style: TextStyle(fontSize: size.height * 0.02),
-                                      ),
-                                      SizedBox(
-                                        width: size.width * 0.02,
-                                      ),
-                                      Text(
-                                        '25%',
-                                        style: TextStyle(fontSize: size.height * 0.02),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
                           ),
                         ),
                         SizedBox(
-                          height: size.height * 0.03,
+                          height: size.height * 0.01,
                         ),
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black),
-                            borderRadius: BorderRadius.circular(20),
-                            color: white,
-                            boxShadow: [
-                              BoxShadow(
-                                spreadRadius: 5,
-                                blurRadius: 7,
-                                offset: const Offset(0, 8),
-                                color: darkblue.withOpacity(0.5),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                            children: [
+                              Text(
+                                'Cash Discount :',
+                                style: TextStyle(fontSize: size.height * 0.02),
+                              ),
+                              SizedBox(
+                                width: size.width * 0.02,
+                              ),
+                              Text(
+                                productList[index]['cashDiscount'] + "%",
+                                style: TextStyle(fontSize: size.height * 0.02),
+                              ),
+                              SizedBox(
+                                width: size.width * 0.2,
+                              ),
+                              Text(
+                                'Credit Discount :',
+                                style: TextStyle(fontSize: size.height * 0.02),
+                              ),
+                              SizedBox(
+                                width: size.width * 0.02,
+                              ),
+                              Text(
+                                productList[index]['creditDiscount'] + "%",
+                                style: TextStyle(fontSize: size.height * 0.02),
                               ),
                             ],
-                          ),
-                          height: size.height * 0.2,
-                          width: size.width * 0.9,
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              top: size.height * 0.02,
-                              left: size.width * 0.05,
-                              right: size.width * 0.05,
-                            ),
-                            child: Column(
-                              children: [
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    productName2,
-                                    style: TextStyle(fontSize: size.height * 0.03),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: size.height * 0.01,
-                                ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    productId2,
-                                    style: TextStyle(fontSize: size.height * 0.02),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: size.height * 0.025,
-                                ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        'Price :',
-                                        style: TextStyle(
-                                          fontSize: size.height * 0.025,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: size.width * 0.02,
-                                      ),
-                                      Text(
-                                        'Rs.12000.00',
-                                        style: TextStyle(
-                                          fontSize: size.height * 0.025,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: size.height * 0.01,
-                                ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        'Cash Discount :',
-                                        style: TextStyle(fontSize: size.height * 0.02),
-                                      ),
-                                      SizedBox(
-                                        width: size.width * 0.02,
-                                      ),
-                                      Text(
-                                        '30%',
-                                        style: TextStyle(fontSize: size.height * 0.02),
-                                      ),
-                                      SizedBox(
-                                        width: size.width * 0.04,
-                                      ),
-                                      Text(
-                                        'Credit Discount :',
-                                        style: TextStyle(fontSize: size.height * 0.02),
-                                      ),
-                                      SizedBox(
-                                        width: size.width * 0.02,
-                                      ),
-                                      Text(
-                                        '25%',
-                                        style: TextStyle(fontSize: size.height * 0.02),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: size.height * 0.03,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black),
-                            borderRadius: BorderRadius.circular(20),
-                            color: white,
-                            boxShadow: [
-                              BoxShadow(
-                                spreadRadius: 5,
-                                blurRadius: 7,
-                                offset: const Offset(0, 8),
-                                color: darkblue.withOpacity(0.5),
-                              ),
-                            ],
-                          ),
-                          height: size.height * 0.2,
-                          width: size.width * 0.9,
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              top: size.height * 0.02,
-                              left: size.width * 0.05,
-                              right: size.width * 0.05,
-                            ),
-                            child: Column(
-                              children: [
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    productName3,
-                                    style: TextStyle(fontSize: size.height * 0.03),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: size.height * 0.01,
-                                ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    productId3,
-                                    style: TextStyle(fontSize: size.height * 0.02),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: size.height * 0.025,
-                                ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        'Price :',
-                                        style: TextStyle(
-                                          fontSize: size.height * 0.025,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: size.width * 0.02,
-                                      ),
-                                      Text(
-                                        'Rs.12000.00',
-                                        style: TextStyle(
-                                          fontSize: size.height * 0.025,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: size.height * 0.01,
-                                ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        'Cash Discount :',
-                                        style: TextStyle(fontSize: size.height * 0.02),
-                                      ),
-                                      SizedBox(
-                                        width: size.width * 0.02,
-                                      ),
-                                      Text(
-                                        '30%',
-                                        style: TextStyle(fontSize: size.height * 0.02),
-                                      ),
-                                      SizedBox(
-                                        width: size.width * 0.04,
-                                      ),
-                                      Text(
-                                        'Credit Discount :',
-                                        style: TextStyle(fontSize: size.height * 0.02),
-                                      ),
-                                      SizedBox(
-                                        width: size.width * 0.02,
-                                      ),
-                                      Text(
-                                        '25%',
-                                        style: TextStyle(fontSize: size.height * 0.02),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: size.height * 0.03,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black),
-                            borderRadius: BorderRadius.circular(20),
-                            color: white,
-                            boxShadow: [
-                              BoxShadow(
-                                spreadRadius: 5,
-                                blurRadius: 7,
-                                offset: const Offset(0, 8),
-                                color: darkblue.withOpacity(0.5),
-                              ),
-                            ],
-                          ),
-                          height: size.height * 0.2,
-                          width: size.width * 0.9,
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              top: size.height * 0.02,
-                              left: size.width * 0.05,
-                              right: size.width * 0.05,
-                            ),
-                            child: Column(
-                              children: [
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    productName4,
-                                    style: TextStyle(fontSize: size.height * 0.03),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: size.height * 0.01,
-                                ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    productId4,
-                                    style: TextStyle(fontSize: size.height * 0.02),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: size.height * 0.025,
-                                ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        'Price :',
-                                        style: TextStyle(
-                                          fontSize: size.height * 0.025,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: size.width * 0.02,
-                                      ),
-                                      Text(
-                                        'Rs.12000.00',
-                                        style: TextStyle(
-                                          fontSize: size.height * 0.025,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: size.height * 0.01,
-                                ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        'Cash Discount :',
-                                        style: TextStyle(fontSize: size.height * 0.02),
-                                      ),
-                                      SizedBox(
-                                        width: size.width * 0.02,
-                                      ),
-                                      Text(
-                                        '30%',
-                                        style: TextStyle(fontSize: size.height * 0.02),
-                                      ),
-                                      SizedBox(
-                                        width: size.width * 0.04,
-                                      ),
-                                      Text(
-                                        'Credit Discount :',
-                                        style: TextStyle(fontSize: size.height * 0.02),
-                                      ),
-                                      SizedBox(
-                                        width: size.width * 0.02,
-                                      ),
-                                      Text(
-                                        '25%',
-                                        style: TextStyle(fontSize: size.height * 0.02),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: size.height * 0.03,
-                  ),
-                ],
-              ),
+                );
+              },
             ),
           ),
         ],
