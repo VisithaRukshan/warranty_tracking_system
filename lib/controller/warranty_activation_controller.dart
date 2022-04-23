@@ -26,13 +26,13 @@ class WarrantyActivation {
         currentDateTime: currentDate);
 
     activateWarranty(warranty);
-    _sendSMS(mobileNo, currentDate.split(" ")[0], warrantyExpireDate.toString().split(" ")[0]);
+    _sendSMS(sNo, mobileNo, currentDate.split(" ")[0], warrantyExpireDate.toString().split(" ")[0]);
     clearFields();
   }
 
-  void _sendSMS(String cNo, String wActivatedDate, String wEndDate) async{
+  void _sendSMS(String sNo,String cNo, String wActivatedDate, String wEndDate) async{
 
-    String message = 'Your+warranty+activated+from+$wActivatedDate+to+$wEndDate';
+    String message = 'Dear+customer,Your+new+vehicle+battery+(+$sNo+)+is+warranty+activated+on+$wActivatedDate.+Warranty+will+be+expired+on+$wEndDate.Thank+you.';
 
     try{
       Response response = await Dio().get("https://www.textit.biz/sendmsg?id=94770399391&pw=4033&to=$cNo&text=$message");
