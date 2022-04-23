@@ -35,7 +35,7 @@ class WarrantyActivation {
     String message = 'Your+warranty+activated+from+$wActivatedDate+to+$wEndDate';
 
     try{
-    //  Response response = await Dio().get("https://www.textit.biz/sendmsg?id=94768689394&pw=7980&to=$cNo&text=$message");
+      Response response = await Dio().get("https://www.textit.biz/sendmsg?id=94770399391&pw=4033&to=$cNo&text=$message");
     }catch(e){
       print(e);
     }
