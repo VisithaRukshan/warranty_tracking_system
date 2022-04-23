@@ -1,18 +1,18 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:warranty_tracking_system/controller/dbManager_product_list.dart';
-import 'package:warranty_tracking_system/support/colors.dart';
-import 'package:warranty_tracking_system/support/global.dart';
 
-class ProductView extends StatefulWidget {
-  const ProductView({Key? key}) : super(key: key);
+import '../controller/dbManager_notifications.dart';
+import '../support/colors.dart';
+import '../support/global.dart';
+
+class NotificationsView extends StatefulWidget {
+  const NotificationsView({Key? key}) : super(key: key);
 
   @override
-  _ProductViewState createState() => _ProductViewState();
+  State<NotificationsView> createState() => _NotificationsViewState();
 }
 
-class _ProductViewState extends State<ProductView> {
-  List productList = [];
+class _NotificationsViewState extends State<NotificationsView> {
+  List notificationList = [];
 
   @override
   void initState() {
@@ -22,15 +22,15 @@ class _ProductViewState extends State<ProductView> {
   }
 
   fetchDatabaseList() async {
-    dynamic results = await DBManagerProductList().getProductList();
+    dynamic results = await DBManagerNotificationList().getProductList();
 
     if (results == null) {
       print("unable to retrieve");
     } else {
       setState(() {
-        productList = results;
+        notificationList = results;
       });
-      print(productList[0]);
+      print(notificationList[0]);
     }
   }
 
@@ -76,7 +76,7 @@ class _ProductViewState extends State<ProductView> {
                       height: size.height * 0.05,
                       child: Center(
                         child: Text(
-                          'Products',
+                          'Notifications',
                           style: TextStyle(
                             color: white,
                             fontSize: size.height * 0.03,
@@ -97,52 +97,38 @@ class _ProductViewState extends State<ProductView> {
           //Body starts here
           Expanded(
             child: ListView.builder(
-              itemCount: productList.length,
+              itemCount: notificationList.length,
               itemBuilder: (context, index) {
                 return Card(
-                  elevation: 6,
+                  elevation: 8,
                   margin: EdgeInsets.all(size.height * 0.01),
+                  shadowColor: darkblue,
                   child: ListTile(
                     // title:
                     title: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          productList[index]['productName'],
-                          style: TextStyle(fontSize: size.height * 0.03),
+                          notificationList[index]['type'],
+                          style: TextStyle(fontSize: size.height * 0.02),
                         ),
                         SizedBox(
                           height: size.height * 0.01,
                         ),
                         Text(
-                          productList[index]['productID'],
-                          style: TextStyle(fontSize: size.height * 0.02),
+                          notificationList[index]['subject'],
+                          style: TextStyle(fontSize: size.height * 0.03),
                         ),
                         SizedBox(
                           height: size.height * 0.025,
                         ),
                         Align(
                           alignment: Alignment.centerLeft,
-                          child: Row(
-                            children: [
-                              Text(
-                                'Price :',
-                                style: TextStyle(
-                                  fontSize: size.height * 0.025,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              SizedBox(
-                                width: size.width * 0.02,
-                              ),
-                              Text(
-                                productList[index]['price'],
-                                style: TextStyle(
-                                  fontSize: size.height * 0.025,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
+                          child: Text(
+                            notificationList[index]['messege'],
+                            style: TextStyle(fontSize: size.height * 0.02),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 20,
                           ),
                         ),
                         SizedBox(
@@ -152,35 +138,16 @@ class _ProductViewState extends State<ProductView> {
                           alignment: Alignment.centerLeft,
                           child: Row(
                             children: [
-                              Text(
-                                'Cash Discount :',
-                                style: TextStyle(fontSize: size.height * 0.02),
-                              ),
                               SizedBox(
-                                width: size.width * 0.02,
+                                width: size.width * 0.65,
                               ),
                               Text(
-                                productList[index]['cashDiscount'] + "%",
-                                style: TextStyle(fontSize: size.height * 0.02),
-                              ),
-                              SizedBox(
-                                width: size.width * 0.2,
-                              ),
-                              Text(
-                                'Credit Discount :',
-                                style: TextStyle(fontSize: size.height * 0.02),
-                              ),
-                              SizedBox(
-                                width: size.width * 0.02,
-                              ),
-                              Text(
-                                productList[index]['creditDiscount'] + "%",
-                                style: TextStyle(fontSize: size.height * 0.02),
+                                notificationList[index]['createdTime'],
+                                style: TextStyle(fontSize: size.height * 0.015),
                               ),
                             ],
                           ),
                         ),
-                        
                       ],
                     ),
                   ),

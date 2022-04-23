@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:warranty_tracking_system/support/colors.dart';
 import 'package:warranty_tracking_system/support/global.dart';
@@ -7,6 +8,38 @@ class WarrantyActivationReportView extends StatefulWidget {
 
   @override
   _WarrantyActivationReportViewState createState() => _WarrantyActivationReportViewState();
+}
+
+class Record {
+  final String sNo;
+  final String model;
+  final String activationDate;
+  final String warrantyExpireDate;
+  final String mobileNo;
+  final String address;
+  final String vehicleModel;
+  final DocumentReference reference;
+
+  Record.fromMap(Map<String, dynamic> map, {required this.reference})
+      : assert(map['sNo'] != null),
+        assert(map['model'] != null),
+        assert(map['activationDate'] != null),
+        assert(map['warrantyExpireDate'] != null),
+        assert(map['mobileNo'] != null),
+        assert(map['address'] != null),
+        assert(map['vehicleModel'] != null),
+        sNo = map['sNo'],
+        model = map['model'],
+        activationDate = map['activationDate'],
+        warrantyExpireDate = map['warrantyExpireDate'],
+        mobileNo = map['mobileNo'],
+        address = map['address'],
+        vehicleModel = map['vehicleModel'];
+
+  Record.fromSnapshot(DocumentSnapshot snapshot) : this.fromMap(snapshot.data() as Map<String, dynamic>, reference: snapshot.reference);
+
+  @override
+  String toString() => "Record<$sNo:$model:$activationDate:$warrantyExpireDate:$mobileNo:$address:$vehicleModel>";
 }
 
 class _WarrantyActivationReportViewState extends State<WarrantyActivationReportView> {
@@ -112,9 +145,8 @@ class _WarrantyActivationReportViewState extends State<WarrantyActivationReportV
                       }).toList(),
                     ),
                   ),
-                
                 ),
-              SizedBox(
+                SizedBox(
                   width: size.width * 0.01,
                 ),
                 Expanded(
@@ -148,233 +180,126 @@ class _WarrantyActivationReportViewState extends State<WarrantyActivationReportV
                       }).toList(),
                     ),
                   ),
-                
                 )
               ],
             ),
           ),
 
           SizedBox(
-            height: size.height * 0.01
-            ,
+            height: size.height * 0.01,
           ),
           //Body starts here
-          Expanded(
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                scrollDirection: Axis.vertical,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                        right: size.width * 0.05,
-                        left: size.width * 0.05,
-                      ),
-                      child: DataTable(
-                        columns: <DataColumn>[
-                          DataColumn(
-                            label: Text(
-                              'Model',
-                              style: TextStyle(
-                                fontSize: size.height * 0.02,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Text(
-                              'Serial No.',
-                              style: TextStyle(
-                                fontSize: size.height * 0.02,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Text(
-                              'Warranty Start\nDate',
-                              style: TextStyle(
-                                fontSize: size.height * 0.02,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Text(
-                              'Warranty End\nDate',
-                              style: TextStyle(
-                                fontSize: size.height * 0.02,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Text(
-                              'Contact No.',
-                              style: TextStyle(
-                                fontSize: size.height * 0.02,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Text(
-                              'Address',
-                              style: TextStyle(
-                                fontSize: size.height * 0.02,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Text(
-                              'Vehicle Model',
-                              style: TextStyle(
-                                fontSize: size.height * 0.02,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ],
-                        rows: const [
-                          DataRow(
-                            cells: [
-                              DataCell(
-                                Text('MF001'),
-                              ),
-                              DataCell(
-                                Text('E001236524587965'),
-                              ),
-                              DataCell(
-                                Text('2022-02-03'),
-                              ),
-                              DataCell(
-                                Text('2023-02-03'),
-                              ),
-                              DataCell(
-                                Text('0987654321'),
-                              ),
-                              DataCell(
-                                Text('Colombo'),
-                              ),
-                              DataCell(
-                                Text('Car'),
-                              ),
-                            ],
-                          ),
-                          DataRow(
-                            cells: [
-                              DataCell(
-                                Text('MF001'),
-                              ),
-                              DataCell(
-                                Text('E001236524587965'),
-                              ),
-                              DataCell(
-                                Text('2022-02-03'),
-                              ),
-                              DataCell(
-                                Text('2023-02-03'),
-                              ),
-                              DataCell(
-                                Text('0987654321'),
-                              ),
-                              DataCell(
-                                Text('Colombo'),
-                              ),
-                              DataCell(
-                                Text('Car'),
-                              ),
-                            ],
-                          ),
-                          DataRow(
-                            cells: [
-                              DataCell(
-                                Text('MF001'),
-                              ),
-                              DataCell(
-                                Text('E001236524587965'),
-                              ),
-                              DataCell(
-                                Text('2022-02-03'),
-                              ),
-                              DataCell(
-                                Text('2023-02-03'),
-                              ),
-                              DataCell(
-                                Text('0987654321'),
-                              ),
-                              DataCell(
-                                Text('Colombo'),
-                              ),
-                              DataCell(
-                                Text('Car'),
-                              ),
-                            ],
-                          ),
-                          DataRow(
-                            cells: [
-                              DataCell(
-                                Text('MF001'),
-                              ),
-                              DataCell(
-                                Text('E001236524587965'),
-                              ),
-                              DataCell(
-                                Text('2022-02-03'),
-                              ),
-                              DataCell(
-                                Text('2023-02-03'),
-                              ),
-                              DataCell(
-                                Text('0987654321'),
-                              ),
-                              DataCell(
-                                Text('Colombo'),
-                              ),
-                              DataCell(
-                                Text('Car'),
-                              ),
-                            ],
-                          ),
-                          DataRow(
-                            cells: [
-                              DataCell(
-                                Text('MF001'),
-                              ),
-                              DataCell(
-                                Text('E001236524587965'),
-                              ),
-                              DataCell(
-                                Text('2022-02-03'),
-                              ),
-                              DataCell(
-                                Text('2023-02-03'),
-                              ),
-                              DataCell(
-                                Text('0987654321'),
-                              ),
-                              DataCell(
-                                Text('Colombo'),
-                              ),
-                              DataCell(
-                                Text('Car'),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+          _buildBody(context),
         ],
       ),
     );
+  }
+
+  Widget _buildBody(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance.collection('ActivatedWarranty').snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return const LinearProgressIndicator();
+
+        return Expanded(
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              child: DataTable(
+                columns: [
+                  DataColumn(
+                    label: Text(
+                      'Model',
+                      style: TextStyle(
+                        fontSize: size.height * 0.02,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      'Serial No.',
+                      style: TextStyle(
+                        fontSize: size.height * 0.02,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      'Warranty Start\nDate',
+                      style: TextStyle(
+                        fontSize: size.height * 0.02,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      'Warranty End\nDate',
+                      style: TextStyle(
+                        fontSize: size.height * 0.02,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      'Contact No.',
+                      style: TextStyle(
+                        fontSize: size.height * 0.02,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      'Address',
+                      style: TextStyle(
+                        fontSize: size.height * 0.02,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      'Vehicle Model',
+                      style: TextStyle(
+                        fontSize: size.height * 0.02,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+                rows: _buildList(context, snapshot.data!.docs),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  List<DataRow> _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
+    return snapshot.map((data) => _buildListItem(context, data)).toList();
+  }
+
+  DataRow _buildListItem(BuildContext context, DocumentSnapshot data) {
+    final record = Record.fromSnapshot(data);
+    print(record);
+
+    return DataRow(cells: [
+      DataCell(Text(record.model)),
+      DataCell(Text(record.sNo)),
+      DataCell(Text(record.activationDate)),
+      DataCell(Text(record.warrantyExpireDate)),
+      DataCell(Text(record.mobileNo)),
+      DataCell(Text(record.address)),
+      DataCell(Text(record.vehicleModel)),
+    ]);
   }
 }

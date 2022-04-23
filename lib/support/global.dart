@@ -27,6 +27,16 @@ var e002Count = '';
 var e003Count = '';
 var e004Count = '';
 
+var e001SDate = '';
+var e002SDate = '';
+var e003SDate = '';
+var e004SDate = '';
+
+var e001Sno = '';
+var e002Sno = '';
+var e003Sno = '';
+var e004Sno = '';
+
 TextEditingController serialNo = TextEditingController();
 TextEditingController remark = TextEditingController();
 

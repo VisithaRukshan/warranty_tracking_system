@@ -2,10 +2,13 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:permission_handler/permission_handler.dart';
+
 import 'package:warranty_tracking_system/support/colors.dart';
 import 'package:warranty_tracking_system/support/global.dart';
 import 'package:warranty_tracking_system/support/qr_code_reader.dart';
+import 'package:warranty_tracking_system/view/notifications.dart';
 import 'package:warranty_tracking_system/view/product_view.dart';
 import 'package:warranty_tracking_system/view/reports_view.dart';
 import 'package:warranty_tracking_system/view/stock_view.dart';
@@ -43,7 +46,7 @@ class _HomeViewState extends State<HomeView> {
               ),
             ),
             child: Padding(
-              padding: EdgeInsets.only(top: size.height * 0.045),
+              padding: EdgeInsets.only(top: size.height * 0.04),
               child: Row(
                 children: [
                   SizedBox(
@@ -65,9 +68,19 @@ class _HomeViewState extends State<HomeView> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: size.width * 0.1,
-                    height: size.height * 0.05,
+                  IconButton(
+                    icon: const Icon(Icons.notifications_rounded),
+                    color: Colors.white,
+                    iconSize: size.height * 0.04,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const NotificationsView()),
+                      );
+                      setState(() {
+                        titleBarText = 'Notifications';
+                      });
+                    },
                   ),
                 ],
               ),
@@ -443,6 +456,52 @@ class _HomeViewState extends State<HomeView> {
                             SizedBox(
                               width: size.width * 0.033,
                             ),
+                            GestureDetector(
+                              onTap: () async {
+                                print("tapped Contact Us");
+                                FlutterPhoneDirectCaller.callNumber('+94770399391');
+
+                                setState(() {
+                                  titleBarText = 'Contact Us';
+                                });
+                              },
+                              child: Container(
+                                height: size.height * 0.175,
+                                width: size.width * 0.25,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [blue800, darkblue],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.only(top: size.height * 0.02),
+                                  child: Column(
+                                    children: [
+                                      Icon(
+                                        Icons.phone_in_talk_rounded,
+                                        size: size.height * 0.075,
+                                        color: white,
+                                      ),
+                                      SizedBox(
+                                        height: size.height * 0.005,
+                                      ),
+                                      Text(
+                                        'Contact Us',
+                                        style: TextStyle(
+                                          color: white,
+                                          fontSize: size.height * 0.02,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
                             /*       GestureDetector(
                               onTap: () {
                                 titleBarText = 'Stock';
@@ -682,10 +741,10 @@ class _HomeViewState extends State<HomeView> {
                     //   );
                     // }
                     qrStatus = '';
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const QRViewExample()),
-                      );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const QRViewExample()),
+                    );
                   },
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.075,

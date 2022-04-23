@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:warranty_tracking_system/support/colors.dart';
 import 'package:warranty_tracking_system/support/global.dart';
 
+import '../controller/dbManager_product_list.dart';
+
 class StockView extends StatefulWidget {
   const StockView({Key? key}) : super(key: key);
 
@@ -10,6 +12,28 @@ class StockView extends StatefulWidget {
 }
 
 class _StockViewState extends State<StockView> {
+  List productList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    print('fetched');
+    fetchDatabaseList();
+  }
+
+  fetchDatabaseList() async {
+    dynamic results = await DBManagerProductList().getProductList();
+
+    if (results == null) {
+      print("unable to retrieve");
+    } else {
+      setState(() {
+        productList = results;
+      });
+      print(productList[0]);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -99,7 +123,7 @@ class _StockViewState extends State<StockView> {
                               ),
                             ],
                           ),
-                          height: size.height * 0.16,
+                          height: size.height * 0.2,
                           width: size.width * 0.9,
                           child: Padding(
                             padding: EdgeInsets.only(
@@ -153,6 +177,49 @@ class _StockViewState extends State<StockView> {
                                     ],
                                   ),
                                 ),
+                                SizedBox(
+                                  height: size.height * 0.03,
+                                ),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        'Oldest Sereal :',
+                                        style: TextStyle(
+                                          fontSize: size.height * 0.018,
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.w800,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: size.width * 0.02,
+                                      ),
+                                      Text(
+                                        e001Sno,
+                                        style: TextStyle(fontSize: size.height * 0.018),
+                                      ),
+                                      SizedBox(
+                                        width: size.width * 0.04,
+                                      ),
+                                      Text(
+                                        'GRN Date :',
+                                        style: TextStyle(
+                                          fontSize: size.height * 0.018,
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.w800,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: size.width * 0.02,
+                                      ),
+                                      Text(
+                                        e001SDate,
+                                        style: TextStyle(fontSize: size.height * 0.018),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -174,7 +241,7 @@ class _StockViewState extends State<StockView> {
                               ),
                             ],
                           ),
-                          height: size.height * 0.16,
+                          height: size.height * 0.2,
                           width: size.width * 0.9,
                           child: Padding(
                             padding: EdgeInsets.only(
@@ -225,6 +292,51 @@ class _StockViewState extends State<StockView> {
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
+                                      
+                                
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: size.height * 0.03,
+                                ),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        'Oldest Sereal :',
+                                        style: TextStyle(
+                                          fontSize: size.height * 0.018,
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.w800,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: size.width * 0.02,
+                                      ),
+                                      Text(
+                                        e002Sno,
+                                        style: TextStyle(fontSize: size.height * 0.018),
+                                      ),
+                                      SizedBox(
+                                        width: size.width * 0.045,
+                                      ),
+                                      Text(
+                                        'GRN Date :',
+                                        style: TextStyle(
+                                          fontSize: size.height * 0.018,
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.w800,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: size.width * 0.02,
+                                      ),
+                                      Text(
+                                        e002SDate,
+                                        style: TextStyle(fontSize: size.height * 0.018),
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -249,7 +361,7 @@ class _StockViewState extends State<StockView> {
                               ),
                             ],
                           ),
-                          height: size.height * 0.16,
+                          height: size.height * 0.2,
                           width: size.width * 0.9,
                           child: Padding(
                             padding: EdgeInsets.only(
@@ -300,6 +412,51 @@ class _StockViewState extends State<StockView> {
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
+                                      
+                                
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: size.height * 0.03,
+                                ),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        'Oldest Sereal :',
+                                        style: TextStyle(
+                                          fontSize: size.height * 0.018,
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.w800,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: size.width * 0.02,
+                                      ),
+                                      Text(
+                                        e003Sno,
+                                        style: TextStyle(fontSize: size.height * 0.018),
+                                      ),
+                                      SizedBox(
+                                        width: size.width * 0.045,
+                                      ),
+                                      Text(
+                                        'GRN Date :',
+                                        style: TextStyle(
+                                          fontSize: size.height * 0.018,
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.w800,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: size.width * 0.02,
+                                      ),
+                                      Text(
+                                        e003SDate,
+                                        style: TextStyle(fontSize: size.height * 0.018),
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -324,7 +481,7 @@ class _StockViewState extends State<StockView> {
                               ),
                             ],
                           ),
-                          height: size.height * 0.16,
+                          height: size.height * 0.2,
                           width: size.width * 0.9,
                           child: Padding(
                             padding: EdgeInsets.only(
@@ -374,6 +531,49 @@ class _StockViewState extends State<StockView> {
                                           fontSize: size.height * 0.02,
                                           fontWeight: FontWeight.w600,
                                         ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: size.height * 0.03,
+                                ),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        'Oldest Sereal :',
+                                        style: TextStyle(
+                                          fontSize: size.height * 0.018,
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.w800,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: size.width * 0.02,
+                                      ),
+                                      Text(
+                                        e004Sno,
+                                        style: TextStyle(fontSize: size.height * 0.018),
+                                      ),
+                                      SizedBox(
+                                        width: size.width * 0.045,
+                                      ),
+                                      Text(
+                                        'GRN Date :',
+                                        style: TextStyle(
+                                          fontSize: size.height * 0.018,
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.w800,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: size.width * 0.02,
+                                      ),
+                                      Text(
+                                        e004SDate,
+                                        style: TextStyle(fontSize: size.height * 0.018),
                                       ),
                                     ],
                                   ),
