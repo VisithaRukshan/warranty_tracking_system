@@ -137,7 +137,7 @@ class _StockViewState extends State<StockView> {
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     productName1,
-                                    style: TextStyle(fontSize: size.height * 0.03),
+                                    style: TextStyle(fontSize: size.height * 0.025),
                                   ),
                                 ),
                                 SizedBox(
@@ -255,7 +255,7 @@ class _StockViewState extends State<StockView> {
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     productName2,
-                                    style: TextStyle(fontSize: size.height * 0.03),
+                                    style: TextStyle(fontSize: size.height * 0.025),
                                   ),
                                 ),
                                 SizedBox(
@@ -375,7 +375,7 @@ class _StockViewState extends State<StockView> {
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     productName3,
-                                    style: TextStyle(fontSize: size.height * 0.03),
+                                    style: TextStyle(fontSize: size.height * 0.025),
                                   ),
                                 ),
                                 SizedBox(
@@ -495,7 +495,7 @@ class _StockViewState extends State<StockView> {
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     productName4,
-                                    style: TextStyle(fontSize: size.height * 0.03),
+                                    style: TextStyle(fontSize: size.height * 0.025),
                                   ),
                                 ),
                                 SizedBox(

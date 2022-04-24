@@ -100,8 +100,9 @@ class _ProductViewState extends State<ProductView> {
               itemCount: productList.length,
               itemBuilder: (context, index) {
                 return Card(
-                  elevation: 6,
+                  elevation: 8,
                   margin: EdgeInsets.all(size.height * 0.01),
+                  shadowColor: darkblue,
                   child: ListTile(
                     // title:
                     title: Column(
@@ -109,7 +110,7 @@ class _ProductViewState extends State<ProductView> {
                       children: [
                         Text(
                           productList[index]['productName'],
-                          style: TextStyle(fontSize: size.height * 0.03),
+                          style: TextStyle(fontSize: size.height * 0.022),
                         ),
                         SizedBox(
                           height: size.height * 0.01,

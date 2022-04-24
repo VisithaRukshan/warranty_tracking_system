@@ -49,15 +49,15 @@ var e002 = 2;
 var e003 = 1;
 var e004 = 1;
 
-var productName1 = 'Product Name 1';
-var productName2 = 'Product Name 2';
-var productName3 = 'Product Name 3';
-var productName4 = 'Product Name ';
+var productName1 = 'BATTERY EXIDE POWER MF 12V-90AH';
+var productName2 = 'BATTERY EXIDE POWER MF 12V-35AH';
+var productName3 = 'BATTERY EXIDE POWER MF 12V-70AH';
+var productName4 = 'BATTERY EXIDE PMF 12V-150AH';
 
-var productId1 = 'Product ID 1';
-var productId2 = 'Product ID 2';
-var productId3 = 'Product ID 3';
-var productId4 = 'Product ID 4';
+var productId1 = 'E001';
+var productId2 = 'E002';
+var productId3 = 'E002';
+var productId4 = 'E004';
 
 var warrantyReversalMsg = 'Do you need to reverse the warranty ?';
   

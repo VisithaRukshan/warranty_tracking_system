@@ -31,6 +31,10 @@ class _LoginViewState extends State<LoginView> {
                 bottomRight: Radius.circular(100),
               ),
             ),
+            child: const Center(
+                child: Image(
+              image: AssetImage('assets/logo_300x300.png'),
+            )),
           ),
           SizedBox(
             height: size.height * 0.05,
