@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,6 +14,8 @@ import 'package:warranty_tracking_system/view/warranty_activation_view.dart';
 import 'package:warranty_tracking_system/view/warranty_claim_view.dart';
 import 'package:warranty_tracking_system/view/warranty_validation_view.dart';
 
+import '../controller/dbManager_product_list.dart';
+
 class QRViewExample extends StatefulWidget {
   const QRViewExample({Key? key}) : super(key: key);
 
@@ -24,6 +27,7 @@ class _QRViewExampleState extends State<QRViewExample> {
   Barcode? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  bool isApprove = false;
 
   @override
   void reassemble() {
@@ -313,23 +317,194 @@ class _QRViewExampleState extends State<QRViewExample> {
         batModel = '';
         activationDetails(sNo);
 
-        await _firestore.collection(sNo.substring(0, 4)).where("sNo", isEqualTo: code).get().then((value) {
-          warrantyMap2 = value.docs[0].data();
-          //  print(warrantyMap2.values.single('sNo'));
-          print(warrantyMap2['id']);
-          docId = warrantyMap2['id'].toString();
-        });
+        if (sNo.substring(0, 4) == 'E001') {
+          await DBManagerProductList().getProductList();
+          if (e001Sno != sNo) {
+            await validateDialog2('Older battery stock remaining.\nDo you wish to proceed ?');
+            if (isApprove) {
+              try {
+                await _firestore.collection(sNo.substring(0, 4)).where("sNo", isEqualTo: code).get().then((value) {
+                  warrantyMap2 = value.docs[0].data();
+                  //  print(warrantyMap2.values.single('sNo'));
+                  print(warrantyMap2['id']);
+                  docId = warrantyMap2['id'].toString();
+                });
+                final deleteRecord = FirebaseFirestore.instance.collection(sNo.substring(0, 4)).doc(docId);
+                deleteRecord.delete();
 
-        final deleteRecord = FirebaseFirestore.instance.collection(sNo.substring(0, 4)).doc(docId);
-        deleteRecord.delete();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const WArrantyActivationView()),
+                );
+              } catch (e) {
+                validateDialog('This battery does not exist in the stock');
+                controller!.resumeCamera();
+              }
+            }else{
+              controller!.resumeCamera();
+            }
+          } else {
+            try {
+              await _firestore.collection(sNo.substring(0, 4)).where("sNo", isEqualTo: code).get().then((value) {
+                warrantyMap2 = value.docs[0].data();
+                //  print(warrantyMap2.values.single('sNo'));
+                print(warrantyMap2['id']);
+                docId = warrantyMap2['id'].toString();
+              });
+              final deleteRecord = FirebaseFirestore.instance.collection(sNo.substring(0, 4)).doc(docId);
+              deleteRecord.delete();
 
-        // final deleteRecord = await FirebaseFirestore.instance.collection(sNo.substring(0, 4)).where("sNo", isEqualTo: code).get();
-        // deleteRecord.delete();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const WArrantyActivationView()),
+              );
+            } catch (e) {
+              validateDialog('This battery does not exist in the stock');
+              controller!.resumeCamera();
+            }
+          }
+        }
+        if (sNo.substring(0, 4) == 'E002') {
+          await DBManagerProductList().getProductList();
+          if (e002Sno != sNo) {
+            await validateDialog2('Older battery stock remaining.\nDo you wish to proceed ?');
+            if (isApprove) {
+              try {
+                await _firestore.collection(sNo.substring(0, 4)).where("sNo", isEqualTo: code).get().then((value) {
+                  warrantyMap2 = value.docs[0].data();
+                  //  print(warrantyMap2.values.single('sNo'));
+                  print(warrantyMap2['id']);
+                  docId = warrantyMap2['id'].toString();
+                });
+                final deleteRecord = FirebaseFirestore.instance.collection(sNo.substring(0, 4)).doc(docId);
+                deleteRecord.delete();
 
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const WArrantyActivationView()),
-        );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const WArrantyActivationView()),
+                );
+              } catch (e) {
+                validateDialog('This battery does not exist in the stock');
+                controller!.resumeCamera();
+              }
+            }else{
+              controller!.resumeCamera();
+            }
+          } else {
+            try {
+              await _firestore.collection(sNo.substring(0, 4)).where("sNo", isEqualTo: code).get().then((value) {
+                warrantyMap2 = value.docs[0].data();
+                //  print(warrantyMap2.values.single('sNo'));
+                print(warrantyMap2['id']);
+                docId = warrantyMap2['id'].toString();
+              });
+              final deleteRecord = FirebaseFirestore.instance.collection(sNo.substring(0, 4)).doc(docId);
+              deleteRecord.delete();
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const WArrantyActivationView()),
+              );
+            } catch (e) {
+              validateDialog('This battery does not exist in the stock');
+              controller!.resumeCamera();
+            }
+          }
+        }
+        if (sNo.substring(0, 4) == 'E003') {
+          await DBManagerProductList().getProductList();
+          if (e003Sno != sNo) {
+            await validateDialog2('Older battery stock remaining.\nDo you wish to proceed ?');
+            if (isApprove) {
+              try {
+                await _firestore.collection(sNo.substring(0, 4)).where("sNo", isEqualTo: code).get().then((value) {
+                  warrantyMap2 = value.docs[0].data();
+                  //  print(warrantyMap2.values.single('sNo'));
+                  print(warrantyMap2['id']);
+                  docId = warrantyMap2['id'].toString();
+                });
+                final deleteRecord = FirebaseFirestore.instance.collection(sNo.substring(0, 4)).doc(docId);
+                deleteRecord.delete();
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const WArrantyActivationView()),
+                );
+              } catch (e) {
+                validateDialog('This battery does not exist in the stock');
+                controller!.resumeCamera();
+              }
+            }else{
+              controller!.resumeCamera();
+            }
+          } else {
+            try {
+              await _firestore.collection(sNo.substring(0, 4)).where("sNo", isEqualTo: code).get().then((value) {
+                warrantyMap2 = value.docs[0].data();
+                //  print(warrantyMap2.values.single('sNo'));
+                print(warrantyMap2['id']);
+                docId = warrantyMap2['id'].toString();
+              });
+              final deleteRecord = FirebaseFirestore.instance.collection(sNo.substring(0, 4)).doc(docId);
+              deleteRecord.delete();
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const WArrantyActivationView()),
+              );
+            } catch (e) {
+              validateDialog('This battery does not exist in the stock');
+              controller!.resumeCamera();
+            }
+          }
+        }
+        if (sNo.substring(0, 4) == 'E004') {
+          await DBManagerProductList().getProductList();
+          if (e004Sno != sNo) {
+            await validateDialog2('Older battery stock remaining.\nDo you wish to proceed ?');
+            if (isApprove) {
+              try {
+                await _firestore.collection(sNo.substring(0, 4)).where("sNo", isEqualTo: code).get().then((value) {
+                  warrantyMap2 = value.docs[0].data();
+                  //  print(warrantyMap2.values.single('sNo'));
+                  print(warrantyMap2['id']);
+                  docId = warrantyMap2['id'].toString();
+                });
+                final deleteRecord = FirebaseFirestore.instance.collection(sNo.substring(0, 4)).doc(docId);
+                deleteRecord.delete();
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const WArrantyActivationView()),
+                );
+              } catch (e) {
+                validateDialog('This battery does not exist in the stock');
+                controller!.resumeCamera();
+              }
+            }else{
+              controller!.resumeCamera();
+            }
+          } else {
+            try {
+              await _firestore.collection(sNo.substring(0, 4)).where("sNo", isEqualTo: code).get().then((value) {
+                warrantyMap2 = value.docs[0].data();
+                //  print(warrantyMap2.values.single('sNo'));
+                print(warrantyMap2['id']);
+                docId = warrantyMap2['id'].toString();
+              });
+              final deleteRecord = FirebaseFirestore.instance.collection(sNo.substring(0, 4)).doc(docId);
+              deleteRecord.delete();
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const WArrantyActivationView()),
+              );
+            } catch (e) {
+              validateDialog('This battery does not exist in the stock');
+              controller!.resumeCamera();
+            }
+          }
+        }
       } else {
         setState(() {
           wClaimNewBatterySNo = code!;
@@ -497,6 +672,111 @@ class _QRViewExampleState extends State<QRViewExample> {
                       ),
                     ),
                   ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+
+  Future validateDialog2(String? massege) => showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          content: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.19,
+            child: Column(
+              children: [
+                Text(
+                  'Note!',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontWeight: FontWeight.w700,
+                    fontSize: MediaQuery.of(context).size.height * 0.03,
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.02,
+                ),
+                Text(
+                  massege!,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.03,
+                ),
+                Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () async {
+                        setState(() {
+                          isApprove = true;
+                        });
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.05,
+                        width: MediaQuery.of(context).size.width * 0.2,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [blue800, darkblue],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.011),
+                          child: Text(
+                            'Yes',
+                            style: TextStyle(
+                              color: white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: MediaQuery.of(context).size.height * 0.022,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.03,
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        setState(() {
+                          isApprove = false;
+                        });
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.05,
+                        width: MediaQuery.of(context).size.width * 0.2,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [red, darkred],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.011),
+                          child: Text(
+                            'No',
+                            style: TextStyle(
+                              color: white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: MediaQuery.of(context).size.height * 0.022,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

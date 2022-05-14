@@ -361,10 +361,7 @@ class _WArrantyActivationViewState extends State<WArrantyActivationView> {
                                     contactNo.clear();
                                     vehicleModel.clear();
                                   });
-
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
+                                  validateDialog('Warranty Activated Successfully.');
                                   setState(() {
                                     titleBarText = 'Home';
                                   });
@@ -404,6 +401,72 @@ class _WArrantyActivationViewState extends State<WArrantyActivationView> {
       ),
     );
   }
+
+  Future validateDialog(String? massege) => showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          content: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.17,
+            child: Column(
+              children: [
+                Text(
+                  'Note!',
+                  style: TextStyle(
+                    color: const Color.fromARGB(255, 13, 121, 40),
+                    fontWeight: FontWeight.w700,
+                    fontSize: MediaQuery.of(context).size.height * 0.03,
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.02,
+                ),
+                Text(
+                  massege!,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.03,
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.05,
+                    width: MediaQuery.of(context).size.width * 0.2,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [blue800, darkblue],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.011),
+                      child: Text(
+                        'Ok',
+                        style: TextStyle(
+                          color: white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: MediaQuery.of(context).size.height * 0.022,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
 
   Future<PermissionStatus> _getCameraPermission() async {
     var status = await Permission.camera.status;

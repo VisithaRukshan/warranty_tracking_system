@@ -26,7 +26,8 @@ class WarrantyActivation {
         currentDateTime: currentDate);
 
     activateWarranty(warranty);
-    _sendSMS(sNo, mobileNo, currentDate.split(" ")[0], warrantyExpireDate.toString().split(" ")[0]);
+   // _sendSMS(sNo, mobileNo, currentDate.split(" ")[0], warrantyExpireDate.toString().split(" ")[0]);
+
     clearFields();
   }
 

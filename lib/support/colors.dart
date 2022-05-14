@@ -10,3 +10,5 @@ Color blue800 = const Color(0xFF1565C0);
 Color darkblue = const Color(0xFF00204A);
 Color white =  const Color(0xFFFFFFFF);
 Color green = const Color(0xFF4CAF50);
+Color red = const Color.fromARGB(255, 209, 20, 20);
+Color darkred = Color.fromARGB(255, 113, 12, 12);
