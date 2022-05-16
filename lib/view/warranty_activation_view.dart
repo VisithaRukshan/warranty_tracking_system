@@ -18,7 +18,7 @@ class _WArrantyActivationViewState extends State<WArrantyActivationView> {
   TextEditingController vehicleModel = TextEditingController();
 
   Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(context: context, initialDate: selectedDate, firstDate: DateTime(2015, 8), lastDate: DateTime(2101));
+    final DateTime? picked = await showDatePicker(context: context, initialDate: selectedDate, firstDate: DateTime.now().add(const Duration(days: -3)), lastDate:selectedDate);
     if (picked != null && picked != selectedDate) {
       setState(() {
         currentDate = picked.toString();
@@ -355,6 +355,11 @@ class _WArrantyActivationViewState extends State<WArrantyActivationView> {
                               height: size.height * 0.06,
                               child: GestureDetector(
                                 onTap: () {
+                                  DateTime dt1 = DateTime.parse(currentDate);
+                                  DateTime now = DateTime.now();
+
+                                  if(dt1.compareTo(now) < 0)
+
                                   wClaimWarrantyActivation = 'Warranty submitted';
                                   WarrantyActivation().createWarranty(sNo, batModel, currentDate, warrantyExpireDate.toString(), address.text, contactNo.text, vehicleModel.text, wClaimWarrantyActivation);
                                   setState(() {

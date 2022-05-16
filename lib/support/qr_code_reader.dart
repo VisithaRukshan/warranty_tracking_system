@@ -538,6 +538,7 @@ class _QRViewExampleState extends State<QRViewExample> {
         wClaimMobileNo = warrantyMap['mobileNo'];
         wClaimVehicleType = warrantyMap['vehicleModel'];
         wClaimCurrentDateTime = warrantyMap['currentDatTime'];
+        wClaimWarrantyStatus = warrantyMap['warrantyType'];
 
         if (wClaimExpireDate.compareTo(nowDate) > 0) {
           wClaimWithinWarranty = 'Within warranty';

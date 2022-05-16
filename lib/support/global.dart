@@ -17,6 +17,7 @@ var wClaimMobileNo = '';
 var wClaimVehicleType = '';
 var wClaimWithinWarranty = '';
 var wClaimCurrentDateTime ='';
+var wClaimWarrantyStatus = '';
 var wClaimNewBatterySNo = '';
 var wClaimNewBatteryWarrantyStartDate = '';
 var wClaimReturnReson = '';

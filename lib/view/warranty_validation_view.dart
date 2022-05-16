@@ -98,7 +98,7 @@ class _WarrantyValidationViewState extends State<WarrantyValidationView> {
                           ),
                         ],
                       ),
-                      height: size.height * 0.8,
+                      height: size.height * 0.85,
                       width: size.width * 0.9,
                       child: Padding(
                         padding: EdgeInsets.only(
@@ -152,6 +152,33 @@ class _WarrantyValidationViewState extends State<WarrantyValidationView> {
                                 wClaimModel,
                                 style: TextStyle(
                                   fontSize: size.height * 0.02,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: size.height * 0.02,
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                'Warranty Status:',
+                                style: TextStyle(
+                                  fontSize: size.height * 0.02,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: size.height * 0.01,
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                wClaimWarrantyStatus,
+                                style: TextStyle(
+                                  fontSize: size.height * 0.02,
+                                  color: red,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                             ),
