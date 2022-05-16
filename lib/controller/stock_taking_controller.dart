@@ -13,7 +13,7 @@ class StockTaking{
 
   final docWarranty = FirebaseFirestore.instance.collection(sNo.substring(0, 4)).doc();
 
-    stock.id = docWarranty.id;
+    stock.id = sNo;
 
     final json = stock.toJson();
     await docWarranty.set(json);

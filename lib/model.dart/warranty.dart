@@ -8,6 +8,7 @@ class Warranty{
   String? mobileNo;
   String? vehicleModel;
   String? currentDateTime;
+  String? warrantyType;
 
   Warranty({
     this.id ='',
@@ -19,6 +20,7 @@ class Warranty{
     this.mobileNo,
     this.vehicleModel,
     this.currentDateTime,
+    this.warrantyType
   });
 
   Map<String , dynamic> toJson() => {
@@ -30,7 +32,8 @@ class Warranty{
     'address': address,
     'mobileNo':mobileNo,
     'vehicleModel': vehicleModel,
-    'currentDatTime': currentDateTime
+    'currentDatTime': currentDateTime,
+    'warrantyType': warrantyType
   };
 
 }

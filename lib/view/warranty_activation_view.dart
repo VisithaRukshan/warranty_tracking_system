@@ -355,7 +355,8 @@ class _WArrantyActivationViewState extends State<WArrantyActivationView> {
                               height: size.height * 0.06,
                               child: GestureDetector(
                                 onTap: () {
-                                  WarrantyActivation().createWarranty(sNo, batModel, currentDate, warrantyExpireDate.toString(), address.text, contactNo.text, vehicleModel.text);
+                                  wClaimWarrantyActivation = 'Warranty submitted';
+                                  WarrantyActivation().createWarranty(sNo, batModel, currentDate, warrantyExpireDate.toString(), address.text, contactNo.text, vehicleModel.text, wClaimWarrantyActivation);
                                   setState(() {
                                     address.clear();
                                     contactNo.clear();

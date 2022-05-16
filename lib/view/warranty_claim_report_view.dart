@@ -12,6 +12,7 @@ class WarrantyClaimReportView extends StatefulWidget {
 
 class Record {
   final String id;
+  final String status;
   final String newBatterySNo;
   final String oldBatterySNo;
   final String newBatteryWarrantyActivatedDate;
@@ -25,6 +26,7 @@ class Record {
 
   Record.fromMap(Map<String, dynamic> map, {required this.reference})
       : assert(map['id'] != null),
+        assert(map['status'] != null),
         assert(map['newBatterySNo'] != null),
         assert(map['oldBatterySNo'] != null),
         assert(map['newBatteryWarrantyActivatedDate'] != null),
@@ -35,6 +37,7 @@ class Record {
         assert(map['address'] != null),
         assert(map['vehicleModel'] != null),
         id = map['id'],
+        status = map['status'],
         newBatterySNo = map['newBatterySNo'],
         oldBatterySNo = map['oldBatterySNo'],
         newBatteryWarrantyActivatedDate = map['newBatteryWarrantyActivatedDate'],
@@ -49,7 +52,7 @@ class Record {
 
   @override
   String toString() =>
-      "Record<$id:$newBatterySNo:$oldBatterySNo:$newBatteryWarrantyActivatedDate:$batteryModel:$oldBatteryWarrantyActivateDate:$warrantyExpireDate:$mobileNo:$address:$vehicleModel>";
+      "Record<$id:$status:$newBatterySNo:$oldBatterySNo:$newBatteryWarrantyActivatedDate:$batteryModel:$oldBatteryWarrantyActivateDate:$warrantyExpireDate:$mobileNo:$address:$vehicleModel>";
 }
 
 class _WarrantyClaimReportViewState extends State<WarrantyClaimReportView> {
@@ -232,6 +235,15 @@ class _WarrantyClaimReportViewState extends State<WarrantyClaimReportView> {
                   ),
                   DataColumn(
                     label: Text(
+                      'Status',
+                      style: TextStyle(
+                        fontSize: size.height * 0.02,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
                       'Model',
                       style: TextStyle(
                         fontSize: size.height * 0.02,
@@ -331,6 +343,7 @@ class _WarrantyClaimReportViewState extends State<WarrantyClaimReportView> {
 
     return DataRow(cells: [
       DataCell(Text(record.id)),
+      DataCell(Text(record.status)),
       DataCell(Text(record.batteryModel)),
       DataCell(Text(record.oldBatterySNo)),
       DataCell(Text(record.newBatterySNo)),

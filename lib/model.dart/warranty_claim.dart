@@ -11,6 +11,7 @@ class Claim {
   String? vehicleModel;
   String? returnReson;
   String? remark;
+  String? status;
 
   Claim(
       {this.id,
@@ -24,7 +25,8 @@ class Claim {
       this.mobileNo,
       this.vehicleModel,
       this.returnReson,
-      this.remark});
+      this.remark,
+      this.status});
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -39,5 +41,6 @@ class Claim {
         'vehicleModel': vehicleModel,
         'returnReson': returnReson,
         'remark': remark,
+        'status': status,
       };
 }

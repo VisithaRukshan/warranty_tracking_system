@@ -14,6 +14,7 @@ class WarrantyClaim {
     String vehicleModel,
     String returnReson,
     String remark,
+    String status,
   ) {
     final claim = Claim(
       oldBatterySNo: oldBatterySNo,
@@ -26,7 +27,8 @@ class WarrantyClaim {
       mobileNo: mobileNo,
       vehicleModel: vehicleModel,
       returnReson: returnReson,
-      remark: remark
+      remark: remark,
+      status: status, 
     );
 
     warrantyClaimActivation(claim);

@@ -14,6 +14,7 @@ class WarrantyActivation {
     String address,
     String mobileNo,
     String vehicleModel,
+    String warrantyType,
   ) {
     final warranty = Warranty(
         sNo: sNo,
@@ -23,7 +24,8 @@ class WarrantyActivation {
         address: address,
         mobileNo: mobileNo,
         vehicleModel: vehicleModel,
-        currentDateTime: currentDate);
+        currentDateTime: currentDate,
+        warrantyType: warrantyType);
 
     activateWarranty(warranty);
    // _sendSMS(sNo, mobileNo, currentDate.split(" ")[0], warrantyExpireDate.toString().split(" ")[0]);

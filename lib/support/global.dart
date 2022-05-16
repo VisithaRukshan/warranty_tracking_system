@@ -21,6 +21,8 @@ var wClaimNewBatterySNo = '';
 var wClaimNewBatteryWarrantyStartDate = '';
 var wClaimReturnReson = '';
 var wClaimRemark = '';
+var wClaimStatus = 'Submitted';
+var wClaimWarrantyActivation = '';
 
 var e001Count = '';
 var e002Count = '';

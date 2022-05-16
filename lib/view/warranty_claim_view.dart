@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -17,15 +19,15 @@ class WarrantyClaimView extends StatefulWidget {
 class _WarrantyClaimViewState extends State<WarrantyClaimView> {
   // Initial Selected Value
   String dropdownvalue = 'Select the Reason';
+  bool isApprove = false;
 
   // List of items in our dropdown menu
   var items = [
     'Select the Reason',
-    'Reason 1',
-    'Reason 2',
-    'Reason 3',
-    'Reason 4',
-    'Reason 5',
+    'Damaged terminals',
+    'Faulty shells',
+    'Not charging',
+    'Charge not retained  ',
   ];
   @override
   Widget build(BuildContext context) {
@@ -391,7 +393,6 @@ class _WarrantyClaimViewState extends State<WarrantyClaimView> {
                                 GestureDetector(
                                   onTap: () {
                                     openManualInputDialog();
-
                                   },
                                   child: Container(
                                     height: MediaQuery.of(context).size.height * 0.05,
@@ -547,32 +548,59 @@ class _WarrantyClaimViewState extends State<WarrantyClaimView> {
                             SizedBox(
                               height: size.height * 0.06,
                               child: GestureDetector(
-                                onTap: () {
-                                  wClaimRemark = remark.text;
-                                  WarrantyActivation().createWarranty(
-                                    wClaimNewBatterySNo,
-                                    wClaimModel,
-                                    wClaimWarrantyActivatedDate,
-                                    wClaimExpireDate,
-                                    wClaimAddress,
-                                    wClaimMobileNo,
-                                    wClaimVehicleType,
-                                  );
-                                  WarrantyClaim().claim(
-                                    wClaimSNo,
-                                    wClaimNewBatterySNo,
-                                    wClaimModel,
-                                    wClaimWarrantyActivatedDate,
-                                    wClaimNewBatteryWarrantyStartDate,
-                                    wClaimExpireDate,
-                                    wClaimAddress,
-                                    wClaimMobileNo,
-                                    wClaimVehicleType,
-                                    wClaimReturnReson,
-                                    wClaimRemark,
-                                  );
-                                  confirmDialog("Do you want to proceed the warrant claim?");
-                                  remark.clear();
+                                onTap: () async {
+                                  if (wClaimNewBatterySNo.isNotEmpty) {
+                                    await confirmDialog("Do you want to proceed the warrant claim?");
+                                    if (isApprove) {
+                                      wClaimRemark = remark.text;
+                                      wClaimWarrantyActivation = 'Claim submitted';
+
+                                      FirebaseFirestore _firestore = FirebaseFirestore.instance;
+                                      String docId = '';
+                                      Map<String, dynamic> warrantyMap2;
+
+                                      WarrantyActivation().createWarranty(
+                                        wClaimNewBatterySNo,
+                                        wClaimModel,
+                                        wClaimNewBatteryWarrantyStartDate,
+                                        wClaimExpireDate,
+                                        wClaimAddress,
+                                        wClaimMobileNo,
+                                        wClaimVehicleType,
+                                        wClaimWarrantyActivation,
+                                      );
+                                      WarrantyClaim().claim(
+                                        wClaimSNo,
+                                        wClaimNewBatterySNo,
+                                        wClaimModel,
+                                        wClaimWarrantyActivatedDate,
+                                        wClaimNewBatteryWarrantyStartDate.split(' ').first,
+                                        wClaimExpireDate,
+                                        wClaimAddress,
+                                        wClaimMobileNo,
+                                        wClaimVehicleType,
+                                        wClaimReturnReson,
+                                        wClaimRemark,
+                                        wClaimStatus,
+                                      );
+                                      remark.clear();
+                                      await _firestore.collection(wClaimNewBatterySNo.substring(0, 4)).where("sNo", isEqualTo: wClaimNewBatterySNo).get().then((value) {
+                                        warrantyMap2 = value.docs[0].data();
+                                        print(warrantyMap2['id']);
+                                        docId = warrantyMap2['id'].toString();
+                                      });
+                                      final deleteRecord = FirebaseFirestore.instance.collection(wClaimNewBatterySNo.substring(0, 4)).doc(docId);
+                                      deleteRecord.delete();
+
+                                      confirmationDialog('Warranty Claim added successfully');
+                                    } else {
+                                      Navigator.pop(context);
+                                      Navigator.pop(context);
+                                      Navigator.pop(context);
+                                    }
+                                  } else {
+                                    validateDialog('Serial number cannot be empty');
+                                  }
                                 },
                                 child: Container(
                                   alignment: Alignment.center,
@@ -650,19 +678,19 @@ class _WarrantyClaimViewState extends State<WarrantyClaimView> {
                       Map<String, dynamic> warrantyMap;
                       String nowDate = DateTime.now().toString().split(" ")[0];
                       FirebaseFirestore _firestore = FirebaseFirestore.instance;
-                        try {
-                          await _firestore.collection('ActivatedWarranty').where("sNo", isEqualTo: serialNo.text).get().then((value) {
-                            warrantyMap = value.docs[0].data();
-                            validateDialog('Already activated warranty for this battery');
-                          });
-                        } catch (e) {
-                          setState(() {
-                              wClaimNewBatterySNo = serialNo.text;
-                              wClaimNewBatteryWarrantyStartDate = nowDate;
-                          });
-                          
-                      Navigator.pop(context);
-                        }
+                      try {
+                        await _firestore.collection('ActivatedWarranty').where("sNo", isEqualTo: serialNo.text).get().then((value) {
+                          warrantyMap = value.docs[0].data();
+                          validateDialog('Already activated warranty for this battery');
+                        });
+                      } catch (e) {
+                        setState(() {
+                          wClaimNewBatterySNo = serialNo.text;
+                          wClaimNewBatteryWarrantyStartDate = nowDate;
+                        });
+
+                        Navigator.pop(context);
+                      }
                     }
                   },
                   child: Container(
@@ -696,11 +724,11 @@ class _WarrantyClaimViewState extends State<WarrantyClaimView> {
         ),
       );
 
-Future validateDialog(String? massege) => showDialog(
+  Future validateDialog(String? massege) => showDialog(
         context: context,
         builder: (context) => AlertDialog(
           content: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.17,
+            height: MediaQuery.of(context).size.height * 0.19,
             child: Column(
               children: [
                 Text(
@@ -759,22 +787,18 @@ Future validateDialog(String? massege) => showDialog(
         ),
       );
 
-
-  Future<PermissionStatus> _getCameraPermission() async {
-    var status = await Permission.camera.status;
-    if (!status.isGranted) {
-      final result = await Permission.camera.request();
-      return result;
-    } else {
-      return status;
-    }
-  }
-
-  Future confirmDialog(String? massege) => showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
+  Future confirmationDialog(String? massege) => showDialog(
+      context: context,
+      builder: (context) {
+        Timer(const Duration(seconds: 3), () {
+          Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.pop(context);
+        });
+        return AlertDialog(
           content: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.17,
+            height: MediaQuery.of(context).size.height * 0.15,
             child: Column(
               children: [
                 Text(
@@ -798,41 +822,125 @@ Future validateDialog(String? massege) => showDialog(
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.03,
                 ),
-                GestureDetector(
-                  onTap: () async {
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                    setState(() {
-                      titleBarText = 'Home';
-                      serialNo.clear();
-                    });
-                  },
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.05,
-                    width: MediaQuery.of(context).size.width * 0.2,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [blue800, darkblue],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.011),
-                      child: Text(
-                        'Ok',
-                        style: TextStyle(
-                          color: white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: MediaQuery.of(context).size.height * 0.022,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
+              ],
+            ),
+          ),
+        );
+      });
+
+  Future<PermissionStatus> _getCameraPermission() async {
+    var status = await Permission.camera.status;
+    if (!status.isGranted) {
+      final result = await Permission.camera.request();
+      return result;
+    } else {
+      return status;
+    }
+  }
+
+  Future confirmDialog(String? massege) => showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          content: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.19,
+            child: Column(
+              children: [
+                Text(
+                  'Note!',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontWeight: FontWeight.w700,
+                    fontSize: MediaQuery.of(context).size.height * 0.03,
                   ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.02,
+                ),
+                Text(
+                  massege!,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.03,
+                ),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.09,
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        setState(() {
+                          isApprove = true;
+                        });
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.05,
+                        width: MediaQuery.of(context).size.width * 0.2,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [blue800, darkblue],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.011),
+                          child: Text(
+                            'Yes',
+                            style: TextStyle(
+                              color: white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: MediaQuery.of(context).size.height * 0.022,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.03,
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        setState(() {
+                          isApprove = false;
+                        });
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.05,
+                        width: MediaQuery.of(context).size.width * 0.2,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [red, darkred],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.011),
+                          child: Text(
+                            'No',
+                            style: TextStyle(
+                              color: white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: MediaQuery.of(context).size.height * 0.022,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

@@ -13,6 +13,7 @@ class WarrantyActivationReportView extends StatefulWidget {
 class Record {
   final String sNo;
   final String model;
+  final String warrantyType;
   final String activationDate;
   final String warrantyExpireDate;
   final String mobileNo;
@@ -23,6 +24,7 @@ class Record {
   Record.fromMap(Map<String, dynamic> map, {required this.reference})
       : assert(map['sNo'] != null),
         assert(map['model'] != null),
+        assert(map['warrantyType'] != null),
         assert(map['activationDate'] != null),
         assert(map['warrantyExpireDate'] != null),
         assert(map['mobileNo'] != null),
@@ -30,6 +32,7 @@ class Record {
         assert(map['vehicleModel'] != null),
         sNo = map['sNo'],
         model = map['model'],
+        warrantyType = map['warrantyType'],
         activationDate = map['activationDate'],
         warrantyExpireDate = map['warrantyExpireDate'],
         mobileNo = map['mobileNo'],
@@ -39,11 +42,11 @@ class Record {
   Record.fromSnapshot(DocumentSnapshot snapshot) : this.fromMap(snapshot.data() as Map<String, dynamic>, reference: snapshot.reference);
 
   @override
-  String toString() => "Record<$sNo:$model:$activationDate:$warrantyExpireDate:$mobileNo:$address:$vehicleModel>";
+  String toString() => "Record<$sNo:$model:$warrantyType:$activationDate:$warrantyExpireDate:$mobileNo:$address:$vehicleModel>";
 }
 
 class _WarrantyActivationReportViewState extends State<WarrantyActivationReportView> {
-  String dropdownValue1 = 'Select Battery Code';
+  String dropdownValue1 = 'Select Battery Model';
   String dropdownValue2 = 'Date Range';
 
   @override
@@ -137,7 +140,7 @@ class _WarrantyActivationReportViewState extends State<WarrantyActivationReportV
                           dropdownValue1 = newValue!;
                         });
                       },
-                      items: <String>['Select Battery Code'].map<DropdownMenuItem<String>>((String value) {
+                      items: <String>['Select Battery Model'].map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(value),
@@ -231,6 +234,15 @@ class _WarrantyActivationReportViewState extends State<WarrantyActivationReportV
                   ),
                   DataColumn(
                     label: Text(
+                      'Warranty Status',
+                      style: TextStyle(
+                        fontSize: size.height * 0.02,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
                       'Warranty Start\nDate',
                       style: TextStyle(
                         fontSize: size.height * 0.02,
@@ -295,6 +307,7 @@ class _WarrantyActivationReportViewState extends State<WarrantyActivationReportV
     return DataRow(cells: [
       DataCell(Text(record.model)),
       DataCell(Text(record.sNo)),
+      DataCell(Text(record.warrantyType)),
       DataCell(Text(record.activationDate)),
       DataCell(Text(record.warrantyExpireDate)),
       DataCell(Text(record.mobileNo)),
